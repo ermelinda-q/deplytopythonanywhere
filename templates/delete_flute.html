@@ -1,0 +1,64 @@
+<!-- WSAA - Project -->
+<!-- delete_flute.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Flute</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Delete Flute</h1>
+        <p>Remove a flute from the database by ID.</p>
+    </div>
+
+    <div class="view-all-content">
+        <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+        <div class="card form-card">
+            <h2>Enter Flute ID to Delete</h2>
+            <form id="deleteForm">
+                <input type="number" id="fluteID" placeholder="Enter Flute ID" required style="width: 200px;">
+                <button type="submit" class="delete-button">Delete Flute</button>
+            </form>
+        </div>
+
+        <div class="card details-card" id="deleteMessage" style="display: none;">
+            <p><strong>Flute deleted successfully!</strong></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>WSAA - Final Project - by E. Q.</p>
+    </div>
+
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const fluteID = document.getElementById('fluteID').value;
+
+            fetch(`http://127.0.0.1:5000/flutes/${fluteID}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('deleteMessage').style.display = 'block';
+                } else {
+                    alert('Error deleting flute!');
+                    document.getElementById('deleteMessage').style.display = 'none';
+                }
+            })
+            .catch(error => {
+                alert('Network error or server unavailable.');
+                document.getElementById('deleteMessage').style.display = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>

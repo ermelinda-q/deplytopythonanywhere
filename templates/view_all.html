@@ -1,0 +1,79 @@
+<!-- WSAA - Project -->
+<!-- view_flute.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>View All Flutes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>View All Flutes</h1>
+        <p>Browse the complete list of flutes in the database.</p>
+    </div>
+
+    <div class="view-all-content">
+        <!-- Home button using Flask's url_for located in  main.css -->
+        <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+        <table id="fluteTable">
+            <thead>
+                <tr>
+                    <th>Flute ID</th>
+                    <th>Flute Maker</th>
+                    <th>Flute Model</th>
+                    <th>Flute Level</th>
+                    <th>Flute Head</th>
+                    <th>Flute Body</th>
+                    <th>Flute Mechanism</th>
+                    <th>Price Range</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Flutes will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>WSAA - Final Project - by E. Q.</p>
+    </div>
+
+    <script>
+        // Fetch all flutes from backend API
+        fetch('http://127.0.0.1:5000/flutes')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#fluteTable tbody');
+                data.forEach(flute => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${flute.fluteID}</td>
+                        <td>${flute.fluteMaker}</td>
+                        <td>${flute.fluteModel}</td>
+                        <td>${flute.fluteLevel}</td>
+                        <td>${flute.fluteHead}</td>
+                        <td>${flute.fluteBody}</td>
+                        <td>${flute.fluteMechanism}</td>
+                        <td>${flute.priceRange}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            // catching errors.
+            .catch(err => {
+                console.error('Error loading flutes:', err);
+                const tableBody = document.querySelector('#fluteTable tbody');
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="8">Failed to load flutes data.</td>`;
+                tableBody.appendChild(row);
+            });
+    </script>
+
+</body>
+</html>

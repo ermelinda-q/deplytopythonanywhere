@@ -1,0 +1,78 @@
+<!-- WSAA - Project -->
+<!-- find_flute.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Flute by ID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Find Flute by ID</h1>
+        <p>Search for a specific flute in the database.</p>
+    </div>
+
+    <div class="view-all-content">
+        <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+        <div class="card form-card">
+            <h2>Enter Flute ID</h2>
+            <form id="findForm">
+                <input type="number" id="fluteID" placeholder="Enter Flute ID" required style="width: 200px;">
+                <button type="submit">Find Flute</button>
+            </form>
+        </div>
+
+        <div class="card details-card" id="fluteDetails" style="display: none;">
+            <h3>Flute Details</h3>
+            <p><strong>Flute ID:</strong> <span id="detailFluteID"></span></p>
+            <p><strong>Flute Maker:</strong> <span id="detailFluteMaker"></span></p>
+            <p><strong>Flute Model:</strong> <span id="detailFluteModel"></span></p>
+            <p><strong>Flute Level:</strong> <span id="detailFluteLevel"></span></p>
+            <p><strong>Flute Head:</strong> <span id="detailFluteHead"></span></p>
+            <p><strong>Flute Body:</strong> <span id="detailFluteBody"></span></p>
+            <p><strong>Flute Mechanism:</strong> <span id="detailFluteMechanism"></span></p>
+            <p><strong>Price Range:</strong> <span id="detailPriceRange"></span></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>WSAA - Final Project - by E. Q.</p>
+    </div>
+
+    <script>
+        document.getElementById('findForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const fluteID = document.getElementById('fluteID').value;
+
+            fetch(`http://127.0.0.1:5000/flutes/${fluteID}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Not found');
+                    return response.json();
+                })
+                .then(flute => {
+                    document.getElementById('detailFluteID').innerText = flute.fluteID;
+                    document.getElementById('detailFluteMaker').innerText = flute.fluteMaker;
+                    document.getElementById('detailFluteModel').innerText = flute.fluteModel;
+                    document.getElementById('detailFluteLevel').innerText = flute.fluteLevel;
+                    document.getElementById('detailFluteHead').innerText = flute.fluteHead;
+                    document.getElementById('detailFluteBody').innerText = flute.fluteBody;
+                    document.getElementById('detailFluteMechanism').innerText = flute.fluteMechanism;
+                    document.getElementById('detailPriceRange').innerText = flute.priceRange;
+
+                    document.getElementById('fluteDetails').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Flute not found!');
+                    document.getElementById('fluteDetails').style.display = 'none';
+                });
+        });
+    </script>
+
+</body>
+</html>

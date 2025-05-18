@@ -1,0 +1,106 @@
+<!-- WSAA - Project -->
+<!-- create_flute.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create New Flute</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- jQuery CDN for AJAX and DOM manipulation -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Create New Flute</h1>
+        <p>Add a new flute to the database.</p>
+    </div>
+
+    <div class="main-content">
+        <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+        <div class="form-card">
+            <form id="createForm">
+                <label for="fluteMaker">Flute Maker:</label>
+                <input type="text" id="fluteMaker" required />
+
+                <label for="fluteModel">Flute Model:</label>
+                <input type="text" id="fluteModel" required />
+
+                <label for="fluteLevel">Flute Level:</label>
+                <input type="text" id="fluteLevel" required />
+
+                <label for="fluteHead">Flute Head:</label>
+                <input type="text" id="fluteHead" required />
+
+                <label for="fluteBody">Flute Body:</label>
+                <input type="text" id="fluteBody" required />
+
+                <label for="fluteMechanism">Flute Mechanism:</label>
+                <input type="text" id="fluteMechanism" required />
+
+                <label for="priceRange">Price Range:</label>
+                <input type="number" id="priceRange" required />
+
+                <button type="submit">Create Flute</button>
+            </form>
+
+            <div id="createMessage" class="confirmation" style="display: none;">
+                <p>Flute created successfully!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>WSAA - Final Project - by E. Q.</p>
+    </div>
+
+    <script>
+        // Extract flute data from form
+        function getFluteFromForm() {
+            return {
+                fluteMaker: $('#fluteMaker').val(),
+                fluteModel: $('#fluteModel').val(),
+                fluteLevel: $('#fluteLevel').val(),
+                fluteHead: $('#fluteHead').val(),
+                fluteBody: $('#fluteBody').val(),
+                fluteMechanism: $('#fluteMechanism').val(),
+                priceRange: parseFloat($('#priceRange').val())
+            };
+        }
+
+        // Clear form after submission
+        function clearForm() {
+            $('#createForm')[0].reset();
+        }
+
+        // Submit handler using jQuery AJAX
+        $('#createForm').on('submit', function (event) {
+            event.preventDefault();
+            const flute = getFluteFromForm();
+
+            $.ajax({
+                url: 'http://127.0.0.1:5000/flutes',
+                method: 'POST',
+                data: JSON.stringify(flute),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    $('#createMessage').show();
+                    clearForm();
+                },
+                error: function (xhr, status, error) {
+                    alert("Error creating flute: " + error);
+                    $('#createMessage').hide();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

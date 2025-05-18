@@ -1,0 +1,100 @@
+<!-- WSAA - Project -->
+<!-- update_flute.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Update Flute</title>
+    <!-- Link external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Update Flute</h1>
+        <p>Modify flute details using the form below.</p>
+    </div>
+
+    <div class="main-content">
+        <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+        <div class="form-card">
+            <form id="updateForm">
+                <label for="fluteID">Flute ID:</label>
+                <input type="number" id="fluteID" required />
+
+                <label for="fluteMaker">Flute Maker:</label>
+                <input type="text" id="fluteMaker" />
+
+                <label for="fluteModel">Flute Model:</label>
+                <input type="text" id="fluteModel" />
+
+                <label for="fluteLevel">Flute Level:</label>
+                <input type="text" id="fluteLevel" />
+
+                <label for="fluteHead">Flute Head:</label>
+                <input type="text" id="fluteHead" />
+
+                <label for="fluteBody">Flute Body:</label>
+                <input type="text" id="fluteBody" />
+
+                <label for="fluteMechanism">Flute Mechanism:</label>
+                <input type="text" id="fluteMechanism" />
+
+                <label for="priceRange">Price Range:</label>
+                <input type="number" id="priceRange" />
+
+                <button type="submit">Update Flute</button>
+            </form>
+
+            <div id="updateMessage" class="confirmation">
+                <p>Flute updated successfully!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>WSAA - Final Project - by E. Q.</p>
+    </div>
+
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const fluteID = document.getElementById('fluteID').value;
+            const flute = {
+                fluteMaker: document.getElementById('fluteMaker').value,
+                fluteModel: document.getElementById('fluteModel').value,
+                fluteLevel: document.getElementById('fluteLevel').value,
+                fluteHead: document.getElementById('fluteHead').value,
+                fluteBody: document.getElementById('fluteBody').value,
+                fluteMechanism: document.getElementById('fluteMechanism').value,
+                priceRange: document.getElementById('priceRange').value,
+            };
+
+            fetch(`http://127.0.0.1:5000/flutes/${fluteID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(flute)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Update failed");
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('updateMessage').style.display = 'block';
+            })
+            .catch(error => {
+                alert('Error updating flute!');
+                document.getElementById('updateMessage').style.display = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>

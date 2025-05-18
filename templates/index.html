@@ -1,0 +1,68 @@
+<!-- WSAA - Project -->
+<!-- Main index.html file -->
+<!-- Author: E. Qejvani -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flute Database</title>
+    <!-- .css file on 'static' directory -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+
+<div class="header">
+    <h1>Welcome to My Flute Database</h1>
+    <h4>A Place to Keep Track of the Best Flutes</h4>
+</div>
+
+<div class="main-content">
+    <!-- Card 1: View All Flutes -->
+    <div class="card">
+        <h2>View All Flutes</h2>
+        <p>View all flutes in the Database.</p>
+        <a href="{{ url_for('view_all') }}">View All Flutes</a>
+    </div>
+
+    <!-- Card 2: Find a Flute -->
+    <div class="card">
+        <h2>Find a Flute</h2>
+        <p>Search for a specific flute by ID.</p>
+        <a href="{{ url_for('find_flute') }}">Find Flute by ID</a>
+    </div>
+
+    <!-- Card 3: Create a New Flute -->
+    <div class="card">
+        <h2>Create a New Flute</h2>
+        <p>Add a new flute to the Database.</p>
+        <a href="{{ url_for('create_flute_page') }}">Create New Flute</a>
+    </div>
+
+    <!-- Card 4: Flute Image -->
+    <div class="card">
+        <img src="{{ url_for('static', filename='images/flute-image.jpg') }}" alt="Flute Image" class="flute-image">
+    </div>
+
+    <!-- Card 5: Update a Flute -->
+    <div class="card">
+        <h2>Update a Flute</h2>
+        <p>Update an existing flute record.</p>
+        <a href="{{ url_for('update_flute_page') }}">Update Flute</a>
+    </div>
+
+    <!-- Card 6: Delete a Flute -->
+    <div class="card">
+        <h2>Delete a Flute</h2>
+        <p>Remove a record by ID.</p>
+        <a href="{{ url_for('delete_flute_page') }}">Delete Flute</a>
+    </div>
+</div>
+
+<div class="footer">
+    <p>WSAA - Final Project - by E. Q.</p>
+</div>
+
+</body>
+</html>
